@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+        <div class="col-3 m-auto mt-5 border border-dark border-4 p-3">
+
+            <div class="m-auto p-3 mx-3">
+                <h3><center>Coffee Bill Receipt</center></h3>
+                <img src="https://clipart-library.com/images/8cGb8AaLi.png" alt="cofee" height="150" width="250"/>
+            </div>
+            <form method="post"  >
+                {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputName" class="form-label">Enter Name:</label>
+                        <input type="text" class="form-control" name="name" id="exampleInputName" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputemail" class="form-label">Enter email:</label>
+                        <input type="email" class="form-control" name="email" id="exampleInputemail" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputamount" class="form-label">Enter Amount:</label>
+                        <input type="number" name="amount" class="form-control" id="exampleInputamount">
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+
+
+    {% if order %}
+        <div>
+            <form action="/success/" method="POST">
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="rzp_test_QgB83gVHMMYucR"
+                data-amount="{{order.amount}}"
+                data-currency="INR"
+                data-order_id="{{order.id}}"
+                data-buttontext="Pay with Razorpay"
+                data-name="Starbuck"
+                data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+                data-image="https://logodownload.org/wp-content/uploads/2014/07/Starbucks-logo.png"
+                data-prefill.name="pc"
+                data-prefill.email="pc@example.com"
+                data-theme.color="#20A9E6#"
+            ></script>
+            <input type="hidden" custom="Hidden Element" name="hidden"/>
+            </form>
+        {% endif %}
+        </div>
+  </div>
+{% endblock %}
