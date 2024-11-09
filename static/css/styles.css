@@ -10,7 +10,7 @@ body {
 .container {
     max-width: 500px;
     margin: 0 auto;
-    padding-top: 30px;
+    padding-top: 1px;
 }
 
 /* Border and Shadow for the form */
@@ -18,7 +18,7 @@ body {
     border: 1px solid #b58b59;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    padding: 20px;
+    padding: 30px;
 }
 
 /* Header styling */
@@ -27,7 +27,7 @@ h3 {
     color: #4d2e00;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -54,7 +54,7 @@ img:hover {
 .form-control, .form-select {
     width: 100%; /* Ensure all inputs are full-width */
     border-color: #b58b59;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 input:focus, select:focus {
@@ -92,3 +92,4 @@ button:hover {
         width: 120px;
     }
 }
+

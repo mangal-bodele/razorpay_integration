@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
-{% block content %}
-    <div class="text-center mt-5 m-auto">
-        <img src="https://vectorified.com/images/success-icon-png-33.png" alt="success" height="200" width="250"/>
-        <h3>thanku your payment has been received successfully!!</h3>
-        <a href="/home" class="btn btn-primary mt-4">Buy another one</a>
-    </div>
+{% load static %}
 
+{% block content %}
+    <!-- Bootstrap container for proper alignment and padding -->
+    <div class="container text-center mt-5">
+        <!-- Success icon with Bootstrap's responsive image class -->                             
+        <img src="{% static 'imgs/success-icon-png-33.png' %}" alt="Payment Successful" class="img-fluid mb-3" style="max-height: 200px; width: auto;"/>
+        
+        <!-- Custom header style and Bootstrap's text-success class -->
+        <h3 class="text-success" style="font-weight: bold; font-size: 2rem;">Thank you! Your payment has been received successfully!</h3>
+        
+        <!-- Bootstrap margin for spacing -->
+        <p class="mt-3" style="font-size: 1.2rem;">We appreciate your order and hope you enjoy your coffee.</p>
+        
+        <!-- "Buy another one" link with centered button using Bootstrap utilities -->
+        <div class="d-flex justify-content-center mt-4 mx-auto">
+            <a href="{% url 'home' %}" class="btn btn-primary" style="background-color: #6a3b00; border-radius: 6px; padding: 12px 20px; font-size: 1.2rem; transition: background-color 0.3s ease; color: black;">
+                Buy another one
+            </a>
+        </div>
+    </div>
 {% endblock %}
