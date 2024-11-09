@@ -1,49 +1,101 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Coffee Shop Order{% endblock %}
+
 {% block content %}
-        <div class="col-3 m-auto mt-5 border border-dark border-4 p-3">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="border rounded p-4 shadow-lg" style="background-color: #ffffff;">
+                <form method="post">
+                    {% csrf_token %}
+                    <h3>Order Your Coffee</h3>
 
-            <div class="m-auto p-3 mx-3">
-                <h3><center>Coffee Bill Receipt</center></h3>
-                <img src="https://clipart-library.com/images/8cGb8AaLi.png" alt="cofee" height="150" width="250"/>
-            </div>
-            <form method="post"  >
-                {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">Enter Name:</label>
-                        <input type="text" class="form-control" name="name" id="exampleInputName" aria-describedby="emailHelp">
+                    <!-- Coffee Shop Logo -->
+                    <div class="text-center mb-4">
+                        <img src="{% static 'imgs/cofee+logo.jpg' %}" alt="Coffee Logo">
                     </div>
+
+                    <!-- Name Input -->
                     <div class="mb-3">
-                        <label for="exampleInputemail" class="form-label">Enter email:</label>
-                        <input type="email" class="form-control" name="email" id="exampleInputemail" aria-describedby="emailHelp">
+                        <label for="name" class="form-label">Enter Name:</label>
+                        <input type="text" class="form-control" name="name" id="name" required>
                     </div>
+
+                    <!-- Phone Input -->
                     <div class="mb-3">
-                        <label for="exampleInputamount" class="form-label">Enter Amount:</label>
-                        <input type="number" name="amount" class="form-control" id="exampleInputamount">
+                        <label for="phone" class="form-label">Enter Phone Number:</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" required pattern="[0-9]{10}" placeholder="10-digit phone number">
                     </div>
-                    <button class="btn btn-primary">Submit</button>
+
+                    <!-- Coffee Drink Suggestion -->
+                    <div class="mb-3">
+                        <label for="drink_option" class="form-label">Choose Coffee Drink:</label>
+                        <select class="form-select" name="drink_option" id="drink_option" required>
+                            <option value="">Select a drink</option>
+                            <option value="espresso">Espresso</option>
+                            <option value="latte">Latte</option>
+                            <option value="cappuccino">Cappuccino</option>
+                            <option value="americano">Americano</option>
+                            <option value="mocha">Mocha</option>
+                        </select>
+                    </div>
+
+                    <!-- Quantity Input -->
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity:</label>
+                        <input type="number" class="form-control" name="quantity" id="quantity" value="1" min="1">
+                    </div>
+
+                    <!-- Price Display -->
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price (₹):</label>
+                        <input type="text" class="form-control" name="price" id="price" readonly>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn" type="submit">Place Order</button>
                 </form>
-
-
-    {% if order %}
-        <div>
-            <form action="/success/" method="POST">
-            <script
-                src="https://checkout.razorpay.com/v1/checkout.js"
-                data-key="rzp_test_QgB83gVHMMYucR"
-                data-amount="{{order.amount}}"
-                data-currency="INR"
-                data-order_id="{{order.id}}"
-                data-buttontext="Pay with Razorpay"
-                data-name="Starbuck"
-                data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
-                data-image="https://logodownload.org/wp-content/uploads/2014/07/Starbucks-logo.png"
-                data-prefill.name="pc"
-                data-prefill.email="pc@example.com"
-                data-theme.color="#20A9E6#"
-            ></script>
-            <input type="hidden" custom="Hidden Element" name="hidden"/>
-            </form>
-        {% endif %}
+            </div>
         </div>
-  </div>
+    </div>
+</div>
+
+<!-- JavaScript for dynamic price and quantity update -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const drinkPrices = {
+            espresso: {quantity: 1, price: 100},
+            latte: {quantity: 1, price: 150},
+            cappuccino: {quantity: 1, price: 120},
+            americano: {quantity: 1, price: 110},
+            mocha: {quantity: 1, price: 160}
+        };
+
+        const drinkSelect = document.getElementById('drink_option');
+        const quantityInput = document.getElementById('quantity');
+        const priceInput = document.getElementById('price');
+
+        drinkSelect.addEventListener('change', function() {
+            const selectedDrink = drinkSelect.value;
+
+            if (selectedDrink && drinkPrices[selectedDrink]) {
+                quantityInput.value = drinkPrices[selectedDrink].quantity;
+                priceInput.value = drinkPrices[selectedDrink].price * quantityInput.value;
+            } else {
+                quantityInput.value = 1;
+                priceInput.value = '';
+            }
+        });
+
+        quantityInput.addEventListener('input', function() {
+            const selectedDrink = drinkSelect.value;
+
+            if (selectedDrink && drinkPrices[selectedDrink]) {
+                priceInput.value = drinkPrices[selectedDrink].price * quantityInput.value;
+            }
+        });
+    });
+</script>
 {% endblock %}
